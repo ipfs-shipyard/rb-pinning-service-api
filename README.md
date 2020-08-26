@@ -1,24 +1,9 @@
-# README
+# TODO
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- pin name max length 255
+- status should be one of "queued" "pinning" "pinned" "failed"
+- origins should be an array
+- meta should be json
+- delegates should be an array
+- info should be json (or method on model)
+- only unpin cid if this is the only pin with that CID

@@ -31,7 +31,9 @@ class PinsController < ApplicationController
   def update
     @pin = Pin.find(params[:id])
     if @pin.update(pin_params)
-      # TODO @pin.ipfs_update
+      if @pin.saved_change_to_cid
+        @pin.ipfs_update(@pin.saved_change_to_cid[0], @pin.saved_change_to_cid[1])
+      end
       redirect_to @pin
     else
       render :edit
