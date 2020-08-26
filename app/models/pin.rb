@@ -21,6 +21,11 @@ class Pin < ApplicationRecord
     ipfs_client.pin_rm(before_cid)
   end
 
+  def info
+    # TODO implement this
+    {}
+  end
+
   def ipfs_verify
     # TODO implement this in client
   end

@@ -17,12 +17,11 @@ ActiveRecord::Schema.define(version: 2020_08_21_091611) do
 
   create_table "pins", force: :cascade do |t|
     t.string "cid"
-    t.string "name"
-    t.string "origins"
-    t.string "meta"
+    t.string "name", limit: 255
+    t.string "origins", default: [], array: true
+    t.jsonb "meta", default: "{}", null: false
     t.string "status"
-    t.string "delegates"
-    t.string "info"
+    t.string "delegates", default: [], array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
