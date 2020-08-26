@@ -1,4 +1,4 @@
 <div class="pin">
   <p><%= link_to pin.cid, pin %> <% if pin.name.present? %>(<%= pin.name %>)<% end %></p>
-  <p><%= pin.created_at %></p>
+  <p>Date: <%= pin.created_at %> - Status: <%= pin.status %></p>
 </div>

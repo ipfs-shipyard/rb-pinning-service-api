@@ -14,11 +14,20 @@ class Pin < ApplicationRecord
   }
 
   def ipfs_client
+    # TODO this needs to be configurable
     @client ||= Ipfs::Client.new 'http://localhost:5001'
   end
 
   def ipfs_add
-    ipfs_client.pin_add(cid)
+    begin
+      update_columns(status: 'pinning')
+      ipfs_client.pin_add(cid)
+      update_columns(status: 'pinned')
+    rescue => e
+      puts e
+      # TODO record the exception somewhere
+      update_columns(status: 'failed')
+    end
   end
 
   def ipfs_remove
@@ -27,10 +36,16 @@ class Pin < ApplicationRecord
   end
 
   def ipfs_update(before_cid, after_cid)
-    # TODO implement proper pin_update in client
-    ipfs_client.pin_add(after_cid)
-    # TODO only unpin cid if this is the only pin with that CID
-    ipfs_client.pin_rm(before_cid)
+    begin
+      update_columns(status: 'pinning')
+      ipfs_client.pin_add(after_cid)
+      update_columns(status: 'pinned')
+      # TODO only unpin cid if this is the only pin with that CID
+      ipfs_client.pin_rm(before_cid)
+    rescue => e
+      # TODO record the exception somewhere
+      update_columns(status: 'failed')
+    end
   end
 
   def info

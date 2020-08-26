@@ -3,6 +3,6 @@
   <% if @pin.name.present? %>
     <p><%= @pin.name %></p>
   <% end %>
-  <p><%= @pin.created_at %></p>
+  <p>Date: <%= @pin.created_at %> - Status: <%= @pin.status %></p>
   <%= link_to 'Edit', edit_pin_path(@pin) %> - <%= link_to 'Remove', pin_path(@pin), method: :delete %>
 </div>

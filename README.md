@@ -1,6 +1,6 @@
 # TODO
 
-- update status after adding/updating
+- actually use origins and delegates (must return at least one delegate)
 
 - `info` method on model
 - pin status info
@@ -8,8 +8,6 @@
   - dag_size
   - raw_size
   - pinned_until
-
-- actually use origins and delegates (must return at least one delegate)
 
 - queue for pinning in the background (sidekiq, recording state in `status`)
 
