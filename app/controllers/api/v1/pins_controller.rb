@@ -3,7 +3,8 @@ class Api::V1::PinsController < ApplicationController
 
   def index
     @limit = [1, params[:limit].to_i, 1000].sort[1]
-    @scope = Pin.order('created_at DESC')
+    @status = Pin::STATUSES.include?(params[:status]) ? params[:status] : 'pinned'
+    @scope = Pin.order('created_at DESC').status(@status)
     @count = @scope.count
     @pins = @scope.limit(@limit)
   end

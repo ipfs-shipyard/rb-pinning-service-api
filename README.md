@@ -1,7 +1,6 @@
 # TODO
 
-- default pins#index filter (status = 'pinned')
-- pins#index api filters (cids, name, status, before, after, limit, meta)
+- pins#index api filters (cids, name(ilike), before, after, meta)
 
 - update status after adding/updating
 
@@ -24,4 +23,5 @@
 
 # Notes
 
-Does NOT support pinning IPNS names at the moment
+- Does NOT support pinning IPNS names at the moment
+- Pagination is manual for the client, no need for pagination library or headers in server

@@ -1,6 +1,9 @@
 class Pin < ApplicationRecord
+  STATUSES = ["queued", "pinning", "pinned", "failed"]
   validates_presence_of :cid
-  validates :status, inclusion: { in: ["queued", "pinning", "pinned", "failed"] }
+  validates :status, inclusion: { in: STATUSES }
+
+  scope :status, ->(status) { where(status: status) }
 
   def ipfs_client
     @client ||= Ipfs::Client.new 'http://localhost:5001'
