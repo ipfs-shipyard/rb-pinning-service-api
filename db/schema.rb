@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2020_08_21_091611) do
     t.string "name", limit: 255
     t.string "origins", default: [], array: true
     t.jsonb "meta", default: "{}", null: false
-    t.string "status"
+    t.string "status", default: "queued"
     t.string "delegates", default: [], array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

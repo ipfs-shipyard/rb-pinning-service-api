@@ -2,14 +2,14 @@
 
 - basic pinning client for testing
 
-- `status` should be one of "queued" "pinning" "pinned" "failed"
-
 - only unpin cid if this is the only pin with that CID
 
 - pins#index pagination (by before)
 - pins#index api filters (cids, name, status, before, after, limit, meta)
 
 - access token authentication
+
+- update status after adding/updating
 
 - `info` method on model
 - pin status info

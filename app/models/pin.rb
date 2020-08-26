@@ -1,5 +1,6 @@
 class Pin < ApplicationRecord
   validates_presence_of :cid
+  validates :status, inclusion: { in: ["queued", "pinning", "pinned", "failed"] }
 
   def ipfs_client
     @client ||= Ipfs::Client.new 'http://localhost:5001'
