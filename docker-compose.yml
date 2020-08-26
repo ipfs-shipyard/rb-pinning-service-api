@@ -14,6 +14,7 @@ services:
       - DATABASE_PASSWORD=development
       - DATABASE_HOST=database.service.pinning.internal
       - REDIS_URL=redis://redis.service.pinning.internal
+      - IPFS_URL=ipfs.service.pinning.internal
     networks:
       - internal
     depends_on:
@@ -36,8 +37,16 @@ services:
 
   ipfs.service.pinning.internal:
     image: ipfs/go-ipfs:latest
-    networks:
-      - internal
+    environment:
+      - IPFS_PROFILE=server
+      - IPFS_PATH=/ipfsdata
+    volumes:
+      - ./data/ipfs:/ipfsdata
+    ports:
+      - "4001:4001"
+      - "127.0.0.1:8080:8080"
+      - "127.0.0.1:8081:8081"
+      - "127.0.0.1:5001:5001"
 
 volumes:
   pg_data:

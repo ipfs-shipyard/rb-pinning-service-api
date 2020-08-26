@@ -21,7 +21,7 @@ class Pin < ApplicationRecord
 
   def ipfs_client
     # TODO this needs to be configurable
-    @client ||= Ipfs::Client.new 'http://localhost:5001'
+    @client ||= Ipfs::Client.new( "http://#{ENV.fetch("IPFS_URL") { 'localhost' }}:5001")
   end
 
   def ipfs_add
