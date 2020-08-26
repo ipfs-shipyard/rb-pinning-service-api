@@ -2,7 +2,10 @@ class Api::V1::PinsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    @pagy, @pins = pagy(Pin.order('created_at DESC'), overflow: :empty_page)
+    @limit = [1, params[:limit].to_i, 1000].sort[1]
+    @scope = Pin.order('created_at DESC')
+    @count = @scope.count
+    @pins = @scope.limit(@limit)
   end
 
   def show
