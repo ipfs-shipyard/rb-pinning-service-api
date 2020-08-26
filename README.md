@@ -1,13 +1,7 @@
 # TODO
 
-- basic pinning client for testing
-
-- only unpin cid if this is the only pin with that CID
-
-- pins#index pagination (by before)
+- default pins#index filter (status = 'pinned')
 - pins#index api filters (cids, name, status, before, after, limit, meta)
-
-- access token authentication
 
 - update status after adding/updating
 
@@ -22,6 +16,11 @@
 
 - queue for pinning in the background (sidekiq, recording state in `status`)
 
+- access token authentication
+
+- basic pinning client for testing
+
+- only unpin cid if this is the only pin with that CID
 
 # Notes
 
