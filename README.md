@@ -19,3 +19,7 @@
   - dag_size
   - raw_size
   - pinned_until
+
+- actually use origins and delegates
+
+- check that POST to update works as expected (instead of PUT)
