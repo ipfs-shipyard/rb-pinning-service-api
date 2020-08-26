@@ -2,6 +2,8 @@
 
 <%= render @pins %>
 
+<%== pagy_nav(@pagy) %>
+
 <p>
   <%= link_to 'Add pin', new_pin_path %>
 </p>

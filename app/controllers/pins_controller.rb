@@ -1,6 +1,6 @@
 class PinsController < ApplicationController
   def index
-    @pins = Pin.all
+    @pagy, @pins = pagy(Pin.all)
   end
 
   def new
