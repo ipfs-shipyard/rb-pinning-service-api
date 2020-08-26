@@ -1,6 +1,6 @@
 class PinsController < ApplicationController
   def index
-    @pagy, @pins = pagy(Pin.all)
+    @pagy, @pins = pagy(Pin.order('created_at DESC'))
   end
 
   def new

@@ -11,7 +11,7 @@
 
 - only unpin cid if this is the only pin with that CID
 
-- pins#index pagination
+- pins#index pagination (by before)
 - pins#index api filters (cids, name, status, before, after, limit, meta)
 
 - access token authentication
@@ -22,12 +22,13 @@
   - raw_size
   - pinned_until
 
-- actually use origins and delegates
-
-- check that POST to update works as expected (instead of PUT)
+- actually use origins and delegates (must return at least one delegate)
 
 - queue for pinning in the background (sidekiq, recording state in `status`)
 
-- clarification on pinning IPNS names
-- clarification pagination (by page number, offset, date etc)
-- clarification pagination overflow
+
+# Notes
+
+Does NOT support pinning IPNS names at the moment
+
+http://localhost:3000/api/v1/pins/4

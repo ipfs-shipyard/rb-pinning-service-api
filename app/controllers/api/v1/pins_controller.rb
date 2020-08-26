@@ -1,6 +1,8 @@
 class Api::V1::PinsController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   def index
-    @pins = Pin.all
+    @pagy, @pins = pagy(Pin.order('created_at DESC'), overflow: :empty_page)
   end
 
   def show
@@ -15,7 +17,9 @@ class Api::V1::PinsController < ApplicationController
   def update
     @pin = Pin.find(params[:id])
     @pin.update(pin_params)
-    @pin.ipfs_update
+    if @pin.saved_change_to_cid
+      @pin.ipfs_update(@pin.saved_change_to_cid[0], @pin.saved_change_to_cid[1])
+    end
   end
 
   def destroy
