@@ -30,5 +30,3 @@
 # Notes
 
 Does NOT support pinning IPNS names at the moment
-
-http://localhost:3000/api/v1/pins/4
