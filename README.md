@@ -6,4 +6,16 @@
 - meta should be json
 - delegates should be an array
 - info should be json (or method on model)
+
 - only unpin cid if this is the only pin with that CID
+
+- pins#index pagination
+- pins#index api filters (cids, name, status, before, after, limit, meta)
+
+- access token authentication
+
+- pin status info
+  - status_details
+  - dag_size
+  - raw_size
+  - pinned_until
