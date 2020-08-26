@@ -15,6 +15,10 @@
 # gem 'pg'
 #
 default: &default
+  username: <%= ENV.fetch("DATABASE_USERNAME") %>
+  password: <%= ENV.fetch("DATABASE_PASSWORD") %>
+  host:     <%= ENV.fetch("DATABASE_HOST") %>
+  port:     <%= ENV.fetch("DATABASE_PORT") %>
   adapter: postgresql
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
@@ -23,7 +27,7 @@ default: &default
 
 development:
   <<: *default
-  database: pinning_api_development
+  database: <%= ENV.fetch("DATABASE_NAME") { 'pinning_api_development' } %>
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
