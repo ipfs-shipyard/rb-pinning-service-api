@@ -1,0 +1,8 @@
+<div class="pin">
+  <p><%= link_to @pin.cid, "https://gateway.ipfs.io/ipfs/#{@pin.cid}" %></p>
+  <% if @pin.name.present? %>
+    <p><%= @pin.name %></p>
+  <% end %>
+  <p><%= @pin.created_at %></p>
+  <%= link_to 'Edit', edit_pin_path(@pin) %> - <%= link_to 'Remove', pin_path(@pin), method: :delete %>
+</div>

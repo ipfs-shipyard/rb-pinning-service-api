@@ -1,0 +1,13 @@
+<h1>Add Pin</h1>
+
+<%= form_with model: @pin do |f| %>
+  <p>
+    <%= label_tag(:cid) %>*
+    <%= f.text_field :cid %>
+  </p>
+  <p>
+    <%= label_tag(:name) %>
+    <%= f.text_field :name %>
+  </p>
+  <%= f.submit "Create" %>
+<% end %>
