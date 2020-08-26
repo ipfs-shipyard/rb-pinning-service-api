@@ -27,6 +27,9 @@ class Pin < ApplicationRecord
   def ipfs_add
     begin
       update_columns(status: 'pinning')
+      origins.each do |origin|
+        ipfs_client.swarm_connect(origin)
+      end
       ipfs_client.pin_add(cid)
       update_columns(status: 'pinned')
     rescue => e
@@ -44,11 +47,15 @@ class Pin < ApplicationRecord
   def ipfs_update(before_cid, after_cid)
     begin
       update_columns(status: 'pinning')
+      origins.each do |origin|
+        ipfs_client.swarm_connect(origin)
+      end
       ipfs_client.pin_add(after_cid)
       update_columns(status: 'pinned')
       # TODO only unpin cid if this is the only pin with that CID
       ipfs_client.pin_rm(before_cid)
     rescue => e
+      puts e
       # TODO record the exception somewhere
       update_columns(status: 'failed')
     end

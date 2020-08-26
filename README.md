@@ -1,7 +1,5 @@
 # TODO
 
-- actually use origins (must return at least one delegate)
-
 - `info` method on model
 - pin status info
   - status_details
