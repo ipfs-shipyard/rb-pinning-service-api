@@ -13,6 +13,12 @@ class Pin < ApplicationRecord
     where("meta->>? = ?", meta.first[0], meta.first[1])
   }
 
+  before_save :set_delegates
+
+  def set_delegates
+    self.delegates = ipfs_client.id['Addresses']
+  end
+
   def ipfs_client
     # TODO this needs to be configurable
     @client ||= Ipfs::Client.new 'http://localhost:5001'
