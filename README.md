@@ -1,7 +1,5 @@
 # TODO
 
-- pins#index api filters (cids, name(ilike), before, after, meta)
-
 - update status after adding/updating
 
 - `info` method on model
@@ -25,3 +23,4 @@
 
 - Does NOT support pinning IPNS names at the moment
 - Pagination is manual for the client, no need for pagination library or headers in server
+- assumes array in query params is comma seperated (cid=foo,bar)

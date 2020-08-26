@@ -3,7 +3,15 @@ class Pin < ApplicationRecord
   validates_presence_of :cid
   validates :status, inclusion: { in: STATUSES }
 
-  scope :status, ->(status) { where(status: status) }
+  scope :status, ->(status) { where(status: status.split(',')) }
+  scope :cids, ->(cids) { where(cid: cids.split(',')) }
+  scope :name_contains, ->(name) { where('name ilike ?', "%#{name}%") }
+  scope :before, ->(before) { where('created_at < ?', before) }
+  scope :after, ->(after) { where('created_at > ?', after) }
+  scope :meta, ->(meta) {
+    puts meta.first
+    where("meta->>? = ?", meta.first[0], meta.first[1])
+  }
 
   def ipfs_client
     @client ||= Ipfs::Client.new 'http://localhost:5001'
