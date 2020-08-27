@@ -84,6 +84,4 @@ test:
 #
 production:
   <<: *default
-  database: pinning_api_production
-  username: pinning_api
-  password: <%= ENV['PINNING_API_DATABASE_PASSWORD'] %>
+  database: <%= ENV.fetch("DATABASE_NAME") { 'pinning_api_production' } %>
