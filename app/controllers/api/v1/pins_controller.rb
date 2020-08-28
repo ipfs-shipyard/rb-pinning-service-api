@@ -24,7 +24,9 @@ class Api::V1::PinsController < ApplicationController
 
   def create
     @pin = Pin.new(pin_params)
-    @pin.save!
+    if @pin.save!
+      @pin.ipfs_add
+    end
   end
 
   def update
