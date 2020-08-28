@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2020_08_21_091611) do
   enable_extension "plpgsql"
 
   create_table "pins", force: :cascade do |t|
-    t.string "cid"
+    t.string "cid", null: false
     t.string "name", limit: 255
     t.string "origins", default: [], array: true
     t.jsonb "meta", default: "{}", null: false
