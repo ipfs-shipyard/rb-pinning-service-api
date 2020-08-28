@@ -3,8 +3,8 @@ class Pin < ApplicationRecord
   validates_presence_of :cid
   validates :status, inclusion: { in: STATUSES }
 
-  scope :status, ->(status) { where(status: status.split(',')) }
-  scope :cids, ->(cids) { where(cid: cids.split(',')) }
+  scope :status, ->(statuses) { where(status: statuses) }
+  scope :cids, ->(cids) { where(cid: cids) }
   scope :name_contains, ->(name) { where('name ilike ?', "%#{name}%") }
   scope :before, ->(before) { where('created_at < ?', before) }
   scope :after, ->(after) { where('created_at > ?', after) }
