@@ -46,14 +46,24 @@ Clients can optionally filter results by a key+value pair from the `meta` field,
 
 `count` is the total number of records available for the given filters, ignoring the `limit` we we make a separate SQL query for that before loading the limited `Pin` records, if `count` is zero we can skip the second SQL query and return an empty array.
 
+The response of an array of both the pin and it's status is then returned as JSON, rendered using the same jbuilder partial as #show along with `count`.
+
 ### Get
+
+TODO `pins#show` by id
 
 ### Modify
 
+TODO `pins#update` by id
+
 ### Delete
+
+TODO `pins#destroy` by id
 
 ## TODO
 
+- integration testing for rails api controller
+- basic unit tests for pins model
 - `info` method on model
   - status_details
   - dag_size
@@ -63,6 +73,7 @@ Clients can optionally filter results by a key+value pair from the `meta` field,
 - access token authentication
 - basic pinning client for testing
 - only unpin cid if this is the only pin with that CID
+- method for expiring pins after a certain amount of time (does it deleted it or update status?)
 
 ## Notes
 
