@@ -41,7 +41,7 @@ class Api::V1::PinsController < ApplicationController
     @pin = Pin.find(params[:id])
     @pin.ipfs_remove
     @pin.destroy
-    head :ok
+    head :accepted
   end
 
   protected
