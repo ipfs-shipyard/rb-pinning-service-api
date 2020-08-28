@@ -30,10 +30,12 @@ class Api::V1::PinsController < ApplicationController
   end
 
   def update
-    @pin = Pin.find(params[:id])
-    @pin.update(pin_params)
-    if @pin.saved_change_to_cid
-      @pin.ipfs_update(@pin.saved_change_to_cid[0], @pin.saved_change_to_cid[1])
+    @existing_pin = Pin.find(params[:id])
+    @pin = Pin.new(pin_params)
+    if @pin.save!
+      @pin.ipfs_add
+      @existing_pin.ipfs_remove
+      @existing_pin.destroy
     end
   end
 
