@@ -15,7 +15,7 @@ class Api::V1::PinsController < ApplicationController
     @scope = @scope.meta(JSON.parse(params[:meta])) if params[:meta].present?
 
     @count = @scope.count
-    @pins = @scope.limit(@limit)
+    @pins = @count > 0 ? @scope.limit(@limit) : []
   end
 
   def show
