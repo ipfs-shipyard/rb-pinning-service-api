@@ -10,6 +10,8 @@ For the API, the default format is set to `:json` rather than HTML and CSRF prot
 
 TODO: implement authentication and access control via `Authorization: Bearer <access-token>`
 
+The spec does not have any details around etag, gzip, last-modified and other headers that can help improve performance but these could be offered if the client supports them.
+
 ### [Create](https://ipfs.github.io/pinning-services-api-spec/#tag/pins/paths/~1pins/post)
 
 POST request to /pins go to `pins#create`, rails will automatically parse the body as json and convert into params. Although the spec does not nest the object in a `pin` object like the ActiveRecord pattern, the keys do map nicely onto fields on our `Pin` database table.
@@ -26,7 +28,9 @@ After successful validation, the following steps are made to communicate with lo
 - set `status` to `pinned`
 - if an error occurs then set `status` to `failed`
 
-The response of both the pin and it's status is then returned as JSON, rendered using the same jbuilder template as #show.
+The spec says that a successful update results in a 202 (`:accepted`) response code with body of both the pin and it's status is then returned as JSON, rendered using the same jbuilder template as `pins#show`.
+
+In rails the default is 200, as it appears that the spec assumes the ipfs actions will be happening in a job queue after the request has completed, although most http clients will accept and 2XX response as successful so this may not matter to much.
 
 ### List
 
@@ -48,17 +52,45 @@ Clients can optionally filter results by a key+value pair from the `meta` field,
 
 The response of an array of both the pin and it's status is then returned as JSON, rendered using the same jbuilder partial as #show along with `count`.
 
+This endpoint doesn't hit the IPFS node and would make a good candidate for caching.
+
 ### Get
 
-TODO `pins#show` by id
+GET request to /pins/{id} go to `pins#show` which renders `_pin_status.json.jbuilder` or returns 404 if the pin doesn't exist.
+
+This endpoint doesn't hit the IPFS node and would make a good candidate for caching.
 
 ### Modify
 
-TODO `pins#update` by id
+POST request to /pins/{id} go to `pins#update`, unlike the standard rails pattern of using PATCH (or PUT in older versions of rails) for updates so we need to specify an extra route, we also leave the regular PATCH route pointing to the same place but it could be disabled for completeness.
+
+This endpoint accepts the same request body as `pins#create`, rails will automatically parse the body as json and convert into params. Although the spec does not nest the object in a `pin` object like the ActiveRecord pattern, the keys do map nicely onto fields on our `Pin` database table.
+
+Unlike in standard CRUD rails, the spec says that rather than updating the pin of the given `id`, a new pin should be created and the old pin removed afterwards.
+
+> The user can modify an existing pin object via POST /pins/{id}. The new pin object id is returned in the PinStatus response. The old pin object is deleted automatically.
+
+The response should return JSON for the newly created pin, not the pin of the given `id`.
+
+It is unclear from the spec what should happen if the CID is the same as on the pin of the given `id`, for now we play it safe and remove the existing pin with `ipfs pin rm #{cid}` and recreate it with `ipfs pin add #{cid}` but we may be able to skip that step and just update the other fields on the database record.
+
+It is also unclear when the pinning on the new CID fails, should the old pin still be deleted.
+
+There is also a command in IPFS to update pins (`ipfs pin update #{old-cid} #{new-cid}`) which may be useful for here.
+
+Similar to in `pins#create`, before saving the `Pin` to the database, we also set the address of our local IPFS node in the `delegates` field, fetched using `ipfs id` and then attempt to connect to each `origin` provided (`ipfs swarm connect #{origin address}`)
+
+The spec says that a successful update results in a 202 (`:accepted`) response code with body of both the pin and it's status is then returned as JSON, rendered using the same jbuilder template as `pins#show`.
+
+In rails the default is 200, as it appears that the spec assumes the ipfs actions will be happening in a job queue after the request has completed, although most http clients will accept and 2XX response as successful so this may not matter to much.
 
 ### Delete
 
-TODO `pins#destroy` by id
+DELETE request to /pins/{id} go to `pins#destroy`, just like regular CRUD rails, we look up the `Pin` by `id` (404ing if not found), unpin the `cid` on the IPFS node (`ipfs pin rm #{cid}`) and then delete the record.
+
+Successful deletion results in a 202 (`:accepted`) response with no body.
+
+In rails the default is 200 (204 is also standard when there is no response body), as it appears that the spec assumes the ipfs actions will be happening in a job queue after the request has completed, although most http clients will accept and 2XX response as successful so this may not matter to much.
 
 ## TODO
 
