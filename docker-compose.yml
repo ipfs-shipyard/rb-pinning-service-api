@@ -13,13 +13,13 @@ services:
       - DATABASE_USERNAME=postgres
       - DATABASE_PASSWORD=development
       - DATABASE_HOST=database.service.pinning.internal
-      - REDIS_URL=redis://redis.service.pinning.internal
+      # - REDIS_URL=redis://redis.service.pinning.internal
       - IPFS_URL=ipfs.service.pinning.internal
     networks:
       - internal
     depends_on:
       - database.service.pinning.internal
-      - redis.service.pinning.internal
+      # - redis.service.pinning.internal
 
   database.service.pinning.internal:
     image: postgres:9.6-alpine
@@ -30,10 +30,10 @@ services:
     environment:
       - POSTGRES_PASSWORD=development
 
-  redis.service.pinning.internal:
-    image: redis:4.0-alpine
-    networks:
-      - internal
+  # redis.service.pinning.internal:
+  #   image: redis:4.0-alpine
+  #   networks:
+  #     - internal
 
   ipfs.service.pinning.internal:
     image: ipfs/go-ipfs:latest
