@@ -30,10 +30,10 @@ services:
     environment:
       - POSTGRES_PASSWORD=development
 
-  # redis.service.pinning.internal:
-  #   image: redis:4.0-alpine
-  #   networks:
-  #     - internal
+  redis.service.pinning.internal:
+    image: redis:6.0-alpine
+    networks:
+      - internal
 
   ipfs.service.pinning.internal:
     image: ipfs/go-ipfs:latest
