@@ -30,7 +30,7 @@ class Pin < ApplicationRecord
       end
       ipfs_client.pin_add(cid)
       update_columns(status: 'pinned')
-    rescue => e
+    rescue Ipfs::Commands::Error => e
       puts e
       # TODO record the exception somewhere
       update_columns(status: 'failed')
