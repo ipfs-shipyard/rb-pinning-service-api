@@ -10,4 +10,6 @@ Rails.application.routes.draw do
   end
 
   resources :pins
+
+  root to: 'pins#index'
 end

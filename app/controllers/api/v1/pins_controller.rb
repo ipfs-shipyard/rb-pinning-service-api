@@ -6,7 +6,7 @@ class Api::V1::PinsController < ApplicationController
     statuses = params[:status].to_s.split(',')
     @status = statuses.select{|s| Pin::STATUSES.include?(s)}
     @status = 'pinned' if @status.blank?
-    @scope = Pin.order('created_at DESC').status(@status)
+    @scope = Pin.not_deleted.order('created_at DESC').status(@status)
 
     @scope = @scope.name_contains(params[:name]) if params[:name].present?
     @scope = @scope.cid(params[:cid].split(',')) if params[:cid].present?
@@ -19,7 +19,7 @@ class Api::V1::PinsController < ApplicationController
   end
 
   def show
-    @pin = Pin.find(params[:id])
+    @pin = Pin.not_deleted.find(params[:id])
   end
 
   def create
@@ -30,19 +30,19 @@ class Api::V1::PinsController < ApplicationController
   end
 
   def update
-    @existing_pin = Pin.find(params[:id])
+    @existing_pin = Pin.not_deleted.find(params[:id])
     @pin = Pin.new(pin_params)
     if @pin.save!
       @pin.ipfs_add
       @existing_pin.ipfs_remove
-      @existing_pin.destroy
+      @existing_pin.mark_deleted
     end
   end
 
   def destroy
-    @pin = Pin.find(params[:id])
+    @pin = Pin.not_deleted.find(params[:id])
     @pin.ipfs_remove
-    @pin.destroy
+    @pin.mark_deleted
     head :accepted
   end
 

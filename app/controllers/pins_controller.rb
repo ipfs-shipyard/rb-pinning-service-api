@@ -1,6 +1,6 @@
 class PinsController < ApplicationController
   def index
-    @pagy, @pins = pagy(Pin.order('created_at DESC'))
+    @pagy, @pins = pagy(Pin.not_deleted.order('created_at DESC'))
   end
 
   def new
@@ -18,22 +18,23 @@ class PinsController < ApplicationController
   end
 
   def destroy
-    @pin = Pin.find(params[:id])
+    @pin = Pin.not_deleted.find(params[:id])
     @pin.ipfs_remove
-    @pin.destroy
+    @pin.mark_deleted
     redirect_to pins_path
   end
 
   def show
-    @pin = Pin.find(params[:id])
+    @pin = Pin.not_deleted.find(params[:id])
   end
 
   def update
-    @pin = Pin.find(params[:id])
-    if @pin.update(pin_params)
-      if @pin.saved_change_to_cid
-        @pin.ipfs_update(@pin.saved_change_to_cid[0], @pin.saved_change_to_cid[1])
-      end
+    @existing_pin = Pin.not_deleted.find(params[:id])
+    @pin = Pin.new(pin_params)
+    if @pin.save!
+      @pin.ipfs_add
+      @existing_pin.ipfs_remove
+      @existing_pin.mark_deleted
       redirect_to @pin
     else
       render :edit
