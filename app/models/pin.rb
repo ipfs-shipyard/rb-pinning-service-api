@@ -39,7 +39,11 @@ class Pin < ApplicationRecord
 
   def ipfs_remove
     # TODO only unpin cid if this is the only pin with that CID
-    ipfs_client.pin_rm(cid)
+    begin
+      ipfs_client.pin_rm(cid)
+    rescue Ipfs::Commands::Error => e
+      raise unless JSON.parse(e.message)['Code'] == 0
+    end
   end
 
   def info
