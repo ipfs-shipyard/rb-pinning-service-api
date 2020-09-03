@@ -5,7 +5,7 @@ class Pin < ApplicationRecord
 
   scope :status, ->(statuses) { where(status: statuses) }
   scope :cids, ->(cids) { where(cid: cids) }
-  scope :name_contains, ->(name) { where('name ilike ?', "%#{name}%") }
+  scope :name_contains, ->(name) { where('name like ?', "%#{name}%") }
   scope :before, ->(before) { where('created_at < ?', before) }
   scope :after, ->(after) { where('created_at > ?', after) }
   scope :meta, ->(meta) { where("meta->>? = ?", meta.first[0], meta.first[1]) }
