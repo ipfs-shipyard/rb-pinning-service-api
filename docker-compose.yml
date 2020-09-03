@@ -6,14 +6,14 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "5000:5000"
     environment:
       - RAILS_ENV=development
       - DATABASE_NAME=postgres
       - DATABASE_USERNAME=postgres
       - DATABASE_PASSWORD=development
       - DATABASE_HOST=database.service.pinning.internal
-      # - REDIS_URL=redis://redis.service.pinning.internal
+      - REDIS_URL=redis://redis.service.pinning.internal
       - IPFS_URL=ipfs.service.pinning.internal
     networks:
       - internal
