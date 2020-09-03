@@ -17,7 +17,6 @@ RUN apk add --update \
     netcat-openbsd \
     git \
     nodejs \
-    yarn \
     linux-headers \
     postgresql-dev \
     tzdata \
