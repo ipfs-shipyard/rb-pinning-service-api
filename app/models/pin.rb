@@ -1,5 +1,5 @@
 class Pin < ApplicationRecord
-  STATUSES = ["queued", "pinning", "pinned", "failed"]
+  STATUSES = ["queued", "pinning", "pinned", "failed", "removed"]
   validates_presence_of :cid
   validates :status, inclusion: { in: STATUSES }
 
@@ -21,6 +21,10 @@ class Pin < ApplicationRecord
     @client ||= Ipfs::Client.new( "http://#{ENV.fetch("IPFS_URL") { 'localhost' }}:#{ENV.fetch("IPFS_PORT") { '5001' }}")
   end
 
+  def ipfs_add_async
+    IpfsAddWorker.perform_async(id)
+  end
+
   def ipfs_add
     begin
       update_columns(status: 'pinning')
@@ -36,10 +40,15 @@ class Pin < ApplicationRecord
     end
   end
 
+  def ipfs_remove_async
+    IpfsRemoveWorker.perform_async(id)
+  end
+
   def ipfs_remove
     # TODO only unpin cid if this is the only pin with that CID
     begin
       ipfs_client.pin_rm(cid)
+      update_columns(status: 'removed')
     rescue Ipfs::Commands::Error => e
       raise unless JSON.parse(e.message)['Code'] == 0
     end

@@ -25,7 +25,7 @@ class Api::V1::PinsController < ApplicationController
   def create
     @pin = Pin.new(pin_params)
     if @pin.save!
-      @pin.ipfs_add
+      @pin.ipfs_add_async
     end
   end
 
@@ -33,15 +33,15 @@ class Api::V1::PinsController < ApplicationController
     @existing_pin = Pin.not_deleted.find(params[:id])
     @pin = Pin.new(pin_params)
     if @pin.save!
-      @pin.ipfs_add
-      @existing_pin.ipfs_remove
+      @pin.ipfs_add_async
+      @existing_pin.ipfs_remove_async
       @existing_pin.mark_deleted
     end
   end
 
   def destroy
     @pin = Pin.not_deleted.find(params[:id])
-    @pin.ipfs_remove
+    @pin.ipfs_remove_async
     @pin.mark_deleted
     head :accepted
   end

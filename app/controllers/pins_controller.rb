@@ -10,7 +10,7 @@ class PinsController < ApplicationController
   def create
     @pin = Pin.new(pin_params)
     if @pin.save
-      @pin.ipfs_add
+      @pin.ipfs_add_async
       redirect_to @pin
     else
       render :new
@@ -19,7 +19,7 @@ class PinsController < ApplicationController
 
   def destroy
     @pin = Pin.not_deleted.find(params[:id])
-    @pin.ipfs_remove
+    @pin.ipfs_remove_async
     @pin.mark_deleted
     redirect_to pins_path
   end
@@ -32,8 +32,8 @@ class PinsController < ApplicationController
     @existing_pin = Pin.not_deleted.find(params[:id])
     @pin = Pin.new(pin_params)
     if @pin.save!
-      @pin.ipfs_add
-      @existing_pin.ipfs_remove
+      @pin.ipfs_add_async
+      @existing_pin.ipfs_remove_async
       @existing_pin.mark_deleted
       redirect_to @pin
     else

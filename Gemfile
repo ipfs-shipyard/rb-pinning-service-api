@@ -29,6 +29,7 @@ gem 'ipfs-http-client', github: 'andrew/ipfs-http-client'
 gem 'pagy'
 gem 'dotenv-rails'
 gem 'sidekiq'
+gem 'foreman'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
