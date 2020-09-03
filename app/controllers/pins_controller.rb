@@ -1,6 +1,19 @@
 class PinsController < ApplicationController
   def index
-    @pagy, @pins = pagy(Pin.not_deleted.order('created_at DESC'))
+    @limit = [1, params[:limit].to_i, 1000].sort[1]
+    statuses = params[:status].to_s.split(',')
+    @status = statuses.select{|s| Pin::STATUSES.include?(s)}
+    @status = 'pinned' if @status.blank?
+    @scope = Pin.not_deleted.order('created_at DESC').status(@status)
+
+    @scope = @scope.name_contains(params[:name]) if params[:name].present?
+    @scope = @scope.cids(params[:cid].split(',')) if params[:cid].present?
+    @scope = @scope.before(params[:before]) if params[:before].present?
+    @scope = @scope.after(params[:after]) if params[:after].present?
+    @scope = @scope.meta(JSON.parse(params[:meta])) if params[:meta].present?
+
+    @count = @scope.count
+    @pagy, @pins = pagy(@scope, per: @limit)
   end
 
   def new
