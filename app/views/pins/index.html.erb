@@ -1,19 +1,13 @@
-<h1>Pins</h1>
-
 <form class="form-inline" action="<%= pins_path %>">
-  <label for="name">Search by cid:</label>
+  <label for="name" class='mr-1'>Search by cid: </label>
   <input class="form-control mr-sm-2" name='cid' value='<%= params[:cid] %>' type="search" placeholder="bafy..." aria-label="Search">
-  <label for="name">Search by name:</label>
+  <label for="name" class='mr-1'>Search by name: </label>
   <input class="form-control mr-sm-2" name='name' type="search" value='<%= params[:name] %>' placeholder="mabel.jpg..." aria-label="Search">
-  <label for="status">Status:</label>
+  <label for="status" class='mr-1'>Status: </label>
   <%= select_tag 'status', options_for_select(Pin::STATUSES.reject{|s| s == 'removed' }, @status)%>
-  <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+  <button class="btn btn-info my-2 ml-2 my-sm-0" type="submit">Search</button>
 </form>
 
 <%= render @pins %>
 
-<%== pagy_nav(@pagy) %>
-
-<p>
-  <%= link_to 'Add pin', new_pin_path %>
-</p>
+<%== pagy_bootstrap_nav(@pagy) if @pagy.pages > 1 %>

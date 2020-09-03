@@ -1,4 +1,7 @@
-<div class="pin">
-  <p><%= link_to pin.cid, pin %> <% if pin.name.present? %>(<%= pin.name %>)<% end %></p>
-  <p>Date: <%= pin.created_at %> - Status: <%= pin.status %></p>
+<div class="pin card mb-2 mt-2">
+  <div class="card-body">
+    <h5 class="card-title">Pin #<%= pin.id %></h5>
+    <p><%= link_to pin.cid, pin %> <% if pin.name.present? %>(<%= pin.name %>)<% end %></p>
+    Date: <%= pin.created_at %> - Status: <%= pin.status %>
+  </div>
 </div>

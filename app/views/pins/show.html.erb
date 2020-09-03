@@ -1,5 +1,6 @@
 <div class="pin">
-  <p><%= link_to @pin.cid, "https://gateway.ipfs.io/ipfs/#{@pin.cid}" %></p>
+  <h1>Pin #<%= @pin.id %> </h1>
+  <p><%= link_to @pin.cid, "https://gateway.ipfs.io/ipfs/#{@pin.cid}", target: :_blank %></p>
   <% if @pin.name.present? %>
     <p><%= @pin.name %></p>
   <% end %>

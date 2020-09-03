@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>PinningApi</title>
+    <title>Pins on Rails</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -9,10 +9,37 @@
     <%= javascript_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-    <h1>
-      <%= link_to 'Pins on Rails', root_path %>
-    </h1>
-    <%= yield %>
+  <body class='d-flex flex-column h-100'>
+    <header>
+      <nav class="navbar navbar-dark bg-dark navbar-fixed-top navbar-expand-md">
+        <a class="navbar-brand" href="/">
+          <%= octicon 'pin', class: 'logo mr-2', height: 20 %>
+          Pins on Rails
+        </a>
+        <%= link_to 'Add pin', new_pin_path, class: 'btn btn-primary pull-right' %>
+      </nav>
+    </header>
+
+    <main role="main" class="flex-shrink-0">
+      <div class="container">
+        <% flash.each do |key, value| %>
+          <div class="<%= flash_class(key) %>">
+            <%= value %>
+          </div>
+        <% end %>
+
+        <%= yield %>
+      </div>
+    </main>
+
+    <footer class='footer mt-auto py-3'>
+
+      <div class="container">
+        <span class="text-muted">
+          <%= octicon 'mark-github', height: 20 %>
+          <%= link_to 'Feature requests and bug reports welcome', 'https://github.com/andrew/pinning-api', target: :_blank %>
+        </span>
+      </div>
+    </footer>
   </body>
 </html>
