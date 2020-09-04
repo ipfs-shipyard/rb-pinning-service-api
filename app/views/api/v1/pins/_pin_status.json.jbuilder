@@ -1,4 +1,4 @@
-json.id pin.id
+json.id pin.id.to_s
 json.status pin.status
 json.created pin.created_at
 
