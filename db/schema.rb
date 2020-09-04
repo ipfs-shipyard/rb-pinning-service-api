@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_01_100134) do
+ActiveRecord::Schema.define(version: 2020_09_04_145533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 2020_09_01_100134) do
     t.string "cid", null: false
     t.string "name", limit: 255
     t.string "origins", default: [], array: true
-    t.jsonb "meta", default: "{}", null: false
+    t.jsonb "meta", default: {}, null: false
     t.string "status", default: "queued"
     t.string "delegates", default: [], array: true
     t.datetime "created_at", precision: 6, null: false
