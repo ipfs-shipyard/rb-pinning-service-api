@@ -42,7 +42,7 @@ Pagination is not the usual `?page=1` but instead the client is expected to work
 
 One or more CID can be optionally passed, comma separated to `cid`, as they are case sensitive we can pass the array directly to ActiveRecord to filter on: `where(cid: cids)`.
 
-Clients can optionally filter results by `name`, which can be an exact or partial case sensitive match, we use a case insensitive `like` query in postgresql for this: `where('name like ?', "%#{name}%")`.
+Clients can optionally filter results by `name`, which can be an exact or partial case sensitive match, we use a case insensitive `ilike` query in postgresql for this: `where('name ilike ?', "%#{name}%")`.
 
 Clients can optionally filter results by a key+value pair from the `meta` field, which is provided as json in the query parameter. Because we store `meta` in a `jsonb` field in postgresql, we can use the provided SQL function: `where("meta->>? = ?", meta.key, meta.value)`. The spec is not clear on if the JSON stored in `meta` can be nested, we allow nested JSON to be stored on creation but the query may not work as expected if nested JSON is passed when filtering.
 
