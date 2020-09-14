@@ -9,7 +9,7 @@ class Api::V1::PinsController < ApplicationController
     @scope = Pin.not_deleted.order('created_at DESC').status(@status)
 
     @scope = @scope.name_contains(params[:name]) if params[:name].present?
-    @scope = @scope.cids(params[:cid].split(',')) if params[:cid].present?
+    @scope = @scope.cids(params[:cid].split(',').first(10)) if params[:cid].present?
     @scope = @scope.before(params[:before]) if params[:before].present?
     @scope = @scope.after(params[:after]) if params[:after].present?
     @scope = @scope.meta(JSON.parse(params[:meta])) if params[:meta].present?
