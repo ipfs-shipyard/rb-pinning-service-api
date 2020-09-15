@@ -17,6 +17,27 @@
           Pins on Rails
         </a>
         <%= link_to 'Add pin', new_pin_path, class: 'btn btn-primary pull-right' %>
+
+        <div class="user-info collapse navbar-collapse justify-content-end" id="navbarNav">
+          <ul class="navbar-nav">
+
+            <% if logged_in? %>
+              <li class="nav-item nav-link d-none d-md-block">
+                <%= link_to 'Account', account_path, class: 'btn btn-success' %>
+              </li>
+              <li class="nav-item nav-link d-none d-md-block">
+                <%= link_to 'Logout', logout_path, class: 'btn btn-info' %>
+              </li>
+            <% else %>
+            <li class="nav-item nav-link d-none d-md-block">
+              <%= link_to 'Login', login_path, class: 'btn btn-success' %>
+            </li>
+            <li class="nav-item nav-link d-none d-md-block">
+              <%= link_to 'Signup', new_user_path, class: 'btn btn-info' %>
+            </li>
+            <% end %>
+          </ul>
+        </div>
       </nav>
     </header>
 

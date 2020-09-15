@@ -13,6 +13,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :users, only: [:new, :create, :destroy]
+
+  get 'account', to: 'users#show', as: :account
+  get 'login', to: 'sessions#new'
+  post 'login', to: 'sessions#create'
+  get 'logout', to: 'sessions#destroy'
+
   resources :pins
 
   root to: 'pins#index'

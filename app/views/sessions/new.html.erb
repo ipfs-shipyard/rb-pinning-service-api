@@ -1,0 +1,11 @@
+<h1>Login</h1>
+
+<%= form_tag login_path do |f| %>
+  <p>
+    <%= label_tag(:access_token) %>
+    <%= text_field_tag :access_token %>
+  </p>
+  <%= submit_tag "Login" %>
+<% end %>
+
+or <%= link_to 'Sign up', new_user_path %>

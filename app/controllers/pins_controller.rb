@@ -1,10 +1,12 @@
 class PinsController < ApplicationController
+  before_action :authenticate_user!
+
   def index
     @limit = [1, params[:limit].to_i, 1000].sort[1]
     statuses = params[:status].to_s.split(',')
     @status = statuses.select{|s| Pin::STATUSES.include?(s)}
     @status = 'pinned' if @status.blank?
-    @scope = Pin.not_deleted.order('created_at DESC').status(@status)
+    @scope = current_user.pins.not_deleted.order('created_at DESC').status(@status)
 
     @scope = @scope.name_contains(params[:name]) if params[:name].present?
     @scope = @scope.cids(params[:cid].split(',')) if params[:cid].present?
@@ -17,11 +19,11 @@ class PinsController < ApplicationController
   end
 
   def new
-    @pin = Pin.new
+    @pin = current_user.pins.build
   end
 
   def create
-    @pin = Pin.new(pin_params)
+    @pin = current_user.pins.build(pin_params)
     if @pin.save
       @pin.ipfs_add_async
       redirect_to @pin
@@ -31,19 +33,19 @@ class PinsController < ApplicationController
   end
 
   def destroy
-    @pin = Pin.not_deleted.find(params[:id])
+    @pin = current_user.pins.not_deleted.find(params[:id])
     @pin.ipfs_remove_async
     @pin.mark_deleted
     redirect_to pins_path
   end
 
   def show
-    @pin = Pin.not_deleted.find(params[:id])
+    @pin = current_user.pins.not_deleted.find(params[:id])
   end
 
   def update
-    @existing_pin = Pin.not_deleted.find(params[:id])
-    @pin = Pin.new(pin_params)
+    @existing_pin = current_user.pins.not_deleted.find(params[:id])
+    @pin = current_user.pins.build(pin_params)
     if @pin.save!
       @pin.ipfs_add_async
       @existing_pin.ipfs_remove_async
@@ -55,7 +57,7 @@ class PinsController < ApplicationController
   end
 
   def edit
-    @pin = Pin.find(params[:id])
+    @pin = current_user.pins.find(params[:id])
   end
 
   protected
