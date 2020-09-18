@@ -13,6 +13,8 @@ class Pin < ApplicationRecord
 
   before_save :set_delegates
 
+  belongs_to :user
+
   def set_delegates
     self.delegates = ipfs_client.id['Addresses'].reject{|a| a.match('127.0.0.1') }
   end

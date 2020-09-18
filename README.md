@@ -101,8 +101,6 @@ In rails the default is 200 (204 is also standard when there is no response body
   - dag_size
   - raw_size
   - pinned_until
-- queue for pinning in the background (sidekiq, recording state in `status`)
-- access token authentication
 - basic pinning client for testing
 - only unpin cid if this is the only pin with that CID
 - method for expiring pins after a certain amount of time (does it deleted it or update status?)

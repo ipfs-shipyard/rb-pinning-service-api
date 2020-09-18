@@ -1,0 +1,11 @@
+<h1>Signup</h1>
+
+<%= form_with model: @user do |f| %>
+  <p>
+    <%= label_tag(:email) %>*
+    <%= f.text_field :email %>
+  </p>
+  <%= f.submit "Sign up" %>
+<% end %>
+
+or <%= link_to 'Login', login_path %>
