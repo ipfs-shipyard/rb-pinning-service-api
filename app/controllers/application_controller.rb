@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
     return if logged_in?
     respond_to do |format|
       format.html { redirect_to login_path }
-      format.json { render json: { "error" => "unauthorized" }, status: :unauthorized }
+      format.json { render json: { "error" => {"reason" => "UNAUTHORIZED", "details" => "Access token is missing or invalid"} }, status: :unauthorized }
     end
   end
 end
