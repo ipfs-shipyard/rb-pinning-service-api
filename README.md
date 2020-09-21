@@ -108,3 +108,11 @@ In rails the default is 200 (204 is also standard when there is no response body
 
 - Does NOT support pinning IPNS names at the moment
 - Pagination is manual for the client, no need for pagination library or headers in server
+
+## Contributing
+
+Contributions are welcome! This repository is part of the IPFS project and therefore governed by our [contributing guidelines](https://github.com/ipfs/community/blob/master/CONTRIBUTING.md).
+
+## License
+
+[SPDX-License-Identifier: Apache-2.0 OR MIT](LICENSE.md)
