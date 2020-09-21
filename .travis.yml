@@ -1,0 +1,26 @@
+language: ruby
+rvm:
+  - 2.7.1
+
+addons:
+  postgresql: "9.6"
+
+services:
+  - postgresql
+  - redis
+
+before_install:
+  - nvm install 12
+
+before_script:
+  - psql -c 'create database "pinning_api_development";' -U postgres || true
+
+script:
+  - RAILS_ENV=test bundle exec rake --trace db:migrate test
+
+bundler_args: --without development production --deployment --jobs=3 --retry=3
+
+cache: bundler
+
+notifications:
+  email: false
