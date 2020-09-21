@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(access_token: SecureRandom.hex(16), email: params.require(:user).permit(:email)[:email])
+    @user = User.new(email: params.require(:user).permit(:email)[:email])
     if @user.save
       cookies.permanent.signed[:user_id] = @user.id
       redirect_to account_path

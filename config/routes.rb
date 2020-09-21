@@ -4,8 +4,10 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => "/sidekiq"
 
   namespace :api do
-    namespace :v1 do
-      resources :pins, except: [:new, :edit], defaults: {format: :json} do
+    namespace :v1, defaults: {format: :json} do
+      post '/users', to: 'users#create'
+      delete '/users', to: 'users#destroy'
+      resources :pins, except: [:new, :edit] do
         member do
           post :update
         end
