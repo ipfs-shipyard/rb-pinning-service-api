@@ -94,7 +94,6 @@ In rails the default is 200 (204 is also standard when there is no response body
 
 ## TODO
 
-- integration testing for rails api controller
 - basic unit tests for pins model
 - `info` method on model
   - status_details
