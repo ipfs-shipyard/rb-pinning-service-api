@@ -12,7 +12,7 @@ TODO: implement authentication and access control via `Authorization: Bearer <ac
 
 The spec does not have any details around etag, gzip, last-modified and other headers that can help improve performance but these could be offered if the client supports them.
 
-### [Create](https://ipfs.github.io/pinning-services-api-spec/#tag/pins/paths/~1pins/post)
+### [Create Pin](https://ipfs.github.io/pinning-services-api-spec/#tag/pins/paths/~1pins/post)
 
 POST request to /pins go to `pins#create`, rails will automatically parse the body as json and convert into params. Although the spec does not nest the object in a `pin` object like the ActiveRecord pattern, the keys do map nicely onto fields on our `Pin` database table.
 
@@ -32,7 +32,7 @@ The spec says that a successful update results in a 202 (`:accepted`) response c
 
 In rails the default is 200, as it appears that the spec assumes the ipfs actions will be happening in a job queue after the request has completed, although most http clients will accept and 2XX response as successful so this may not matter to much.
 
-### List
+### [List Pins](https://ipfs.github.io/pinning-services-api-spec/#tag/pins/paths/~1pins/get)
 
 GET request to /pins go to `pins#index` with optional url query params to filter responses. Default of 10 records per page (max `1000`), always ordered by newest first (`created_at DESC`).
 
@@ -54,13 +54,13 @@ The response of an array of both the pin and it's status is then returned as JSO
 
 This endpoint doesn't hit the IPFS node and would make a good candidate for caching.
 
-### Get
+### [Get Pin](https://ipfs.github.io/pinning-services-api-spec/#tag/pins/paths/~1pins~1{requestid}/get)
 
 GET request to /pins/{id} go to `pins#show` which renders `_pin_status.json.jbuilder` or returns 404 if the pin doesn't exist.
 
 This endpoint doesn't hit the IPFS node and would make a good candidate for caching.
 
-### Modify
+### [Replace Pin](https://ipfs.github.io/pinning-services-api-spec/#tag/pins/paths/~1pins~1{requestid}/post)
 
 POST request to /pins/{id} go to `pins#update`, unlike the standard rails pattern of using PATCH (or PUT in older versions of rails) for updates so we need to specify an extra route, we also leave the regular PATCH route pointing to the same place but it could be disabled for completeness.
 
@@ -84,7 +84,7 @@ The spec says that a successful update results in a 202 (`:accepted`) response c
 
 In rails the default is 200, as it appears that the spec assumes the ipfs actions will be happening in a job queue after the request has completed, although most http clients will accept and 2XX response as successful so this may not matter to much.
 
-### Delete
+### [Delete Pin](https://ipfs.github.io/pinning-services-api-spec/#tag/pins/paths/~1pins~1{requestid}/delete)
 
 DELETE request to /pins/{id} go to `pins#destroy`, just like regular CRUD rails, we look up the `Pin` by `id` (404ing if not found), unpin the `cid` on the IPFS node (`ipfs pin rm #{cid}`) and then delete the record.
 
@@ -109,4 +109,3 @@ In rails the default is 200 (204 is also standard when there is no response body
 
 - Does NOT support pinning IPNS names at the moment
 - Pagination is manual for the client, no need for pagination library or headers in server
-- assumes array in query params is comma seperated (cid=foo,bar)
