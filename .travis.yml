@@ -13,7 +13,7 @@ before_install:
   - nvm install 12
 
 before_script:
-  - psql -c 'create database "pinning_api_development";' -U postgres || true
+  - psql -c 'create database "pinning_api_test";' -U postgres || true
 
 script:
   - RAILS_ENV=test bundle exec rake --trace db:migrate test
