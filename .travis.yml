@@ -14,7 +14,7 @@ before_install:
 
 before_script:
   - npm install -g go-ipfs
-  - ipfs daemon &
+  - ipfs daemon --init &
   - psql -c 'create database "pinning_api_test";' -U postgres || true
 
 script:
