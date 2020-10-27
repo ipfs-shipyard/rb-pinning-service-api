@@ -8,7 +8,19 @@ class Api::V1::PinsController < Api::V1::ApplicationController
     @status = 'pinned' if @status.blank?
     @scope = current_user.pins.not_deleted.order('created_at DESC').status(@status)
 
-    @scope = @scope.name_contains(params[:name]) if params[:name].present?
+    if params[:name].present?
+      case params[:match]
+      when 'iexact'
+        @scope = @scope.where('name ilike ?', params[:name])
+      when 'partial'
+        @scope = @scope.where('name like ?', "%#{params[:name]}%")
+      when 'ipartial'
+        @scope = @scope.where('name ilike ?', "%#{params[:name]}%")
+      else
+        @scope = @scope.where(name: params[:name])
+      end
+    end
+
     @scope = @scope.cids(params[:cid].split(',').first(10)) if params[:cid].present?
     @scope = @scope.before(params[:before]) if params[:before].present?
     @scope = @scope.after(params[:after]) if params[:after].present?
