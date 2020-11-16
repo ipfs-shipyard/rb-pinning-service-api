@@ -18,6 +18,7 @@ services:
     depends_on:
       - database.service.pinning.internal
       - redis.service.pinning.internal
+      - ipfs.service.pinning.internal
 
   database.service.pinning.internal:
     image: postgres:9.6-alpine
@@ -42,12 +43,6 @@ services:
       - IPFS_PATH=/ipfsdata
     volumes:
       - ./data/ipfs:/ipfsdata
-    ports:
-      - "4001:4001"
-      - "4003:4003"
-      - "8080:8080"
-      - "8081:8081"
-      - "5001:5001"
 
 volumes:
   pg_data:
