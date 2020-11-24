@@ -11,6 +11,8 @@ class Pin < ApplicationRecord
   scope :meta, ->(meta) { where("meta->>? = ?", meta.first[0], meta.first[1]) }
   scope :not_deleted, -> { where(deleted_at: nil) }
 
+  before_create :check_inlined_cids
+
   before_save :set_delegates
 
   belongs_to :user
@@ -27,9 +29,17 @@ class Pin < ApplicationRecord
     IpfsAddWorker.perform_async(id)
   end
 
+  def check_inlined_cids
+    self.status = 'pinned' if inlined_cids?
+  end
+
+  def inlined_cids?
+    Cid.decode(cid).multihash.name == 'identity'
+  end
+
   def ipfs_add
     begin
-      update_columns(status: 'pinning')
+      update_columns(status: 'pinning') unless status == 'pinned'
       origins.each do |origin|
         ipfs_client.swarm_connect(origin)
       end
