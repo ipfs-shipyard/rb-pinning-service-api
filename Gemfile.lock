@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/andrew/ruby-cid.git
-  revision: 9f8b7f0eba1c2339b460abb8eeadb75a21abdd11
+  revision: 19bb798951f20a8e6205ee0798472cabd3e57a90
   branch: main
   specs:
     cid (0.1.0)
