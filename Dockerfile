@@ -16,6 +16,7 @@ RUN apk add --update \
     build-base \
     netcat-openbsd \
     git \
+    shared-mime-info \
     nodejs \
     linux-headers \
     postgresql-dev \
